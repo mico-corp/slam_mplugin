@@ -1,0 +1,12 @@
+
+thirdparty/g2o/bin/
+
+thirdparty/g2o/lib/
+
+build/
+
+CMakeLists\.txt\.user
+
+\.vscode/
+
+*.g2o
