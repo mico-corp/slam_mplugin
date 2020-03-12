@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 //  mico
 //---------------------------------------------------------------------------------------------------------------------
-//  Copyright 2018 Pablo Ramon Soria (a.k.a. Bardo91) pabramsor@gmail.com & Ricardo Lopez Lopez (a.k.a Ric92)
+//  Copyright 2018 Pablo Ramon Soria (a.k.a. Bardo91) pabramsor@gmail.com
 //---------------------------------------------------------------------------------------------------------------------
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 //  and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -19,25 +19,40 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //---------------------------------------------------------------------------------------------------------------------
 
-#ifndef MICO_BASE_MAP3D_ODOMETRY_H_
-#define MICO_BASE_MAP3D_ODOMETRY_H_
 
-#include <mico/slam/cjson/json.h>
-#include <mico/slam/Dataframe.h>
+#ifndef MICO_BASE_MAP3D_UTILS2D_H_
+#define MICO_BASE_MAP3D_UTILS2D_H_
 
-#include <mico/slam/utils/LogManager.h>
+#include <opencv2/opencv.hpp>
+#include <vector>
 
 namespace mico {
-    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
-    class Odometry : public LoggableInterface<DebugLevel_, OutInterface_> {
-    public:
-        /// Initializes parameters
-        virtual bool init(cjson::Json _configFile) = 0;
 
-        /// Pick up an image from the camera and get a keyframe with the point cloud and feature cloud
-        virtual bool computeOdometry(std::shared_ptr<mico::Dataframe<PointType_>> _prevDf, std::shared_ptr<mico::Dataframe<PointType_>> _currentCf) = 0;
+    /// Match descriptors using Brute Force
+    /// \param _des1:
+    /// \param _des2:
+    /// \param _inliers:
+    /// \param _mk_nearest_neighbors:
+    /// \param _mFactorDescriptorDistance:
+    bool matchDescriptorsBF(const cv::Mat &_des1,
+			  const cv::Mat &_des2, 
+			  std::vector<cv::DMatch> &_inliers,
+			  double _mk_nearest_neighbors,
+			  double _mFactorDescriptorDistance);
 
-    };
+    
+    /// Match descriptors using Brute Force
+    /// \param _des1:
+    /// \param _des2:
+    /// \param _inliers:
+    /// \param _mk_nearest_neighbors:
+    /// \param _mFactorDescriptorDistance:
+    bool matchDescriptorsKDT(const cv::Mat &_des1, 
+			  const cv::Mat &_des2, 
+			  std::vector<cv::DMatch> &_inliers,
+			  double _mk_nearest_neighbors);
 }
+
+
 
 #endif

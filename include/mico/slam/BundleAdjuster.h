@@ -24,7 +24,7 @@
 
 #include <mico/slam/Dataframe.h>
 
-#include <mico/base/utils/LogManager.h>
+#include <mico/slam/utils/LogManager.h>
 
 namespace mico {
   template <typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>

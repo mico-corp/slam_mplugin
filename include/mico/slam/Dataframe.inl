@@ -19,7 +19,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //---------------------------------------------------------------------------------------------------------------------
 
-#include <mico/base/utils3d.h>
+#include <mico/slam/utils3d.h>
 
 namespace mico {
     template<typename PointType_>

@@ -23,7 +23,7 @@
 #define MICO_BASE_MAP3D_DATABASE_MARKI_H_
 
 #include <mico/slam/Dataframe.h>
-#include <mico/base/utils/LogManager.h>
+#include <mico/slam/utils/LogManager.h>
 #include <mico/slam/cjson/json.h>
 
 #include <DBoW2/DBoW2.h>

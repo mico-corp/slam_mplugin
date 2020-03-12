@@ -26,7 +26,7 @@
 
 #include <mico/slam/Dataframe.h>
 #include <mico/slam/RansacP2P.h>
-#include <mico/base/utils/LogManager.h>
+#include <mico/slam/utils/LogManager.h>
 #include <mico/slam/cjson/json.h>
 #include <mico/slam/Odometry.h>
 

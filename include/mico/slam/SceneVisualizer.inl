@@ -1,6 +1,6 @@
 #include <iostream>
 #include <opencv2/core/eigen.hpp>
-#include <mico/base/utils3d.h>
+#include <mico/slam/utils3d.h>
 #include <mico/slam/Word.h>
 #include <pcl/io/pcd_io.h>
 

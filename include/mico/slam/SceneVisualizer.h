@@ -13,7 +13,7 @@
 #include <mico/slam/cjson/json.h>
 
 #include <pcl/octree/octree_pointcloud_occupancy.h>
-#include <mico/base/utils/LogManager.h>
+#include <mico/slam/utils/LogManager.h>
 
 #include <pcl/filters/voxel_grid.h>
 

@@ -25,7 +25,7 @@
 #include <opencv2/opencv.hpp>
 
 #include <mico/slam/Dataframe.h>
-#include <mico/base/utils/LogManager.h>
+#include <mico/slam/utils/LogManager.h>
 #include <mico/slam/cjson/json.h>
 #include <mico/slam/Odometry.h>
 

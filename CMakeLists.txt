@@ -67,6 +67,12 @@ if(${NodeEditor_FOUND})
   target_compile_definitions(${PLUGIN_NAME} PUBLIC HAS_QTNODEEDITOR)
 endif()
 
+find_package(flow REQUIRED)
+if(${flow_FOUND})
+  target_link_libraries(${PLUGIN_NAME}  LINK_PUBLIC flow::flow)
+  target_compile_definitions(${PLUGIN_NAME} PUBLIC HAS_FLOW)
+endif()
+
 #########################################
 ## Load opencv
 find_package(OpenCV REQUIRED)

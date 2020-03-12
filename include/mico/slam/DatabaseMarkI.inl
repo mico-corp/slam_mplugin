@@ -19,8 +19,8 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //---------------------------------------------------------------------------------------------------------------------
 
-#include <mico/base/utils3d.h>
-#include <mico/base/utils/LogManager.h>
+#include <mico/slam/utils3d.h>
+#include <mico/slam/utils/LogManager.h>
 
 #include <mico/slam/Word.h>
 

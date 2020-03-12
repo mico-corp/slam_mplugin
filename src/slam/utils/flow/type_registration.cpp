@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 //  mico
 //---------------------------------------------------------------------------------------------------------------------
-//  Copyright 2018 Pablo Ramon Soria (a.k.a. Bardo91) pabramsor@gmail.com & Ricardo Lopez Lopez (a.k.a Ric92)
+//  Copyright 2018 Pablo Ramon Soria (a.k.a. Bardo91) pabramsor@gmail.com
 //---------------------------------------------------------------------------------------------------------------------
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 //  and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -19,25 +19,17 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //---------------------------------------------------------------------------------------------------------------------
 
-#ifndef MICO_BASE_MAP3D_ODOMETRY_H_
-#define MICO_BASE_MAP3D_ODOMETRY_H_
+#include <flow/DataFlow.h>
 
-#include <mico/slam/cjson/json.h>
 #include <mico/slam/Dataframe.h>
 
-#include <mico/slam/utils/LogManager.h>
+#include <memory>
 
-namespace mico {
-    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
-    class Odometry : public LoggableInterface<DebugLevel_, OutInterface_> {
-    public:
-        /// Initializes parameters
-        virtual bool init(cjson::Json _configFile) = 0;
+#include <pcl/point_types.h>
+#include <opencv2/opencv.hpp>
 
-        /// Pick up an image from the camera and get a keyframe with the point cloud and feature cloud
-        virtual bool computeOdometry(std::shared_ptr<mico::Dataframe<PointType_>> _prevDf, std::shared_ptr<mico::Dataframe<PointType_>> _currentCf) = 0;
+FLOW_TYPE_REGISTER(dataframe, std::shared_ptr<mico::Dataframe<pcl::PointXYZRGBNormal>>)
+FLOW_TYPE_REGISTER(v_dataframe, std::vector<std::shared_ptr<mico::Dataframe<pcl::PointXYZRGBNormal>>>)
 
-    };
-}
-
-#endif
+FLOW_TYPE_REGISTER(image, cv::Mat)
+FLOW_TYPE_REGISTER(v_image, std::vector<cv::Mat>)
