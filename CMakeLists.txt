@@ -59,13 +59,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/" ${CMAKE_MODUL
 
 target_compile_options(${PLUGIN_NAME} PUBLIC "-Wall")
 
-find_package(NodeEditor)
-if(${NodeEditor_FOUND})
-  target_include_directories(${PLUGIN_NAME}  PUBLIC ${NodeEditor_INCLUDE_DIRS})
-  target_link_libraries(${PLUGIN_NAME}  LINK_PUBLIC ${NodeEditor_LIBRARIES})
-  target_compile_definitions(${PLUGIN_NAME} PUBLIC HAS_QTNODEEDITOR)
-endif()
-
 find_package(flow REQUIRED)
 if(${flow_FOUND})
   target_link_libraries(${PLUGIN_NAME}  LINK_PUBLIC flow::flow)
