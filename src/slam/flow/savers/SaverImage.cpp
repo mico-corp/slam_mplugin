@@ -26,7 +26,7 @@ namespace mico{
 
     SaverImage::SaverImage(){
         createPolicy({{ "Color", "image"}, 
-                                        {"Depth", "image"}});
+                      {"Depth", "image"}});
 
         registerCallback({"Color"}, 
                                 [&](flow::DataFlow _data){                                
