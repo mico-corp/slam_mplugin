@@ -140,6 +140,19 @@ namespace mico {
     bool radiusFilter(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
                      double _radiusSearch, int _minNeighbors);
 
+    /// Radius filter.
+    /// \param _inputcloud: input cloud to filter
+    /// \param _outputcloud: filtered cloud
+    /// \param _center: 
+    /// \param _radius: radius of the object we are looking for.
+    /// \param _numberOfNeighbours: number of neighbors to look for. Increasing this also increases the number of edges the graph will have.
+    /// \param _weight: the foreground penalty. It is the weight of the edges that connect clouds points with the source vertex.
+    /// \param _sigma: sigma, which affects the smooth cost calculation. It should be set depending on the spacing between points in the cloud (resolution).
+    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
+    bool minCutSegmentation(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
+                     PointType_ _center, double _radius, int _numberOfNeighbours, double _weight, double _sigma);
+    
+
 }
 
 #include "utils3d.inl"

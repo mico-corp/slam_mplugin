@@ -35,6 +35,7 @@
 #include <pcl/registration/correspondence_rejection_surface_normal.h>
 #include <pcl/filters/statistical_outlier_removal.h>
 #include <pcl/filters/radius_outlier_removal.h>
+#include <pcl/segmentation/min_cut_segmentation.h>
 #include <pcl/filters/filter.h>
 #include <pcl/common/pca.h>
 #include <pcl/common/centroid.h>
@@ -520,5 +521,45 @@ namespace mico {
                   << " output cloud: " << _outputCloud->points.size()
                   << " %  " << removed << " indices" << std::endl;
         return true;
+    }   
+
+    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
+    bool minCutSegmentation(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
+                     PointType_ _center, double _radius, int _numberOfNeighbours, double _weight, double _sigma){
+                         
+        // Min-cut clustering object.
+	    pcl::MinCutSegmentation<PointType_> clustering;
+	    clustering.setInputCloud(_inputCloud);
+
+        // set central point
+        pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr foregroundPoints(new pcl::PointCloud<pcl::PointXYZRGBNormal>());
+        foregroundPoints->points.push_back(_center);
+	    clustering.setForegroundPoints(foregroundPoints);
+
+        // Set sigma, which affects the smooth cost calculation. It should be
+	    // set depending on the spacing between points in the cloud (resolution).
+        clustering.setSigma(_sigma);
+        // Set the radius of the object we are looking for.
+        clustering.setRadius(_radius);
+        // Set the number of neighbors to look for. Increasing this also increases
+        // the number of edges the graph will have.
+        clustering.setNumberOfNeighbours(_numberOfNeighbours);
+        // Set the foreground penalty. It is the weight of the edges
+        // that connect clouds points with the source vertex.
+        clustering.setSourceWeight(_weight);
+
+        std::vector <pcl::PointIndices> clusters;
+	    clustering.extract(clusters);
+
+        
+        auto lastCluster = clusters.back();
+
+		for (std::vector<int>::const_iterator point = lastCluster.indices.begin(); point != lastCluster.indices.end(); point++)
+			_outputCloud->points.push_back(_inputCloud->points[*point]);
+
+		_outputCloud->width = _outputCloud->points.size();
+		_outputCloud->height = 1;
+		_outputCloud->is_dense = true;
+
     }   
 }
