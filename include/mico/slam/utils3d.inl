@@ -34,6 +34,8 @@
 #include <pcl/registration/transformation_estimation_point_to_plane_lls.h>
 #include <pcl/registration/correspondence_rejection_surface_normal.h>
 #include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/filters/radius_outlier_removal.h>
+#include <pcl/filters/filter.h>
 #include <pcl/common/pca.h>
 #include <pcl/common/centroid.h>
 #include <pcl/common/common.h>
@@ -500,5 +502,23 @@ namespace mico {
         _pose.block(0,3,3,1) = bboxTransform;
         return true;
     }
-}
 
+    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
+    bool radiusFilter(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
+                         double _radiusSearch, int _minNeighbors){
+                         
+        // Initializing with true will allow us to extract the removed indices
+        pcl::RadiusOutlierRemoval<pcl::PointXYZRGBNormal> rorfilter (true); 
+        rorfilter.setInputCloud (_inputCloud);
+        rorfilter.setRadiusSearch (_radiusSearch);
+        rorfilter.setMinNeighborsInRadius (_minNeighbors);
+        rorfilter.setNegative (false);
+        rorfilter.filter (*_outputCloud);
+        auto indices_rem = rorfilter.getRemovedIndices ();
+        float removed = (float)_outputCloud->points.size() / (float)_inputCloud->points.size();
+        std::cout << "[BlockDarknet]Removed " << " input cloud: " << _inputCloud->points.size()
+                  << " output cloud: " << _outputCloud->points.size()
+                  << " %  " << removed << " indices" << std::endl;
+        return true;
+    }   
+}

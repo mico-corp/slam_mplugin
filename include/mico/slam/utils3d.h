@@ -122,7 +122,7 @@ namespace mico {
                                        double _mRansacMinInliers,
                                        double _mFactorDescriptorDistance,
                                        unsigned _mRansacRefineIterations=5);
-/// Compute principal component analysis.
+    /// Compute principal component analysis.
     /// \param _cloud:
     /// \param _pose:
     /// \param _limits:
@@ -130,6 +130,15 @@ namespace mico {
     bool computePCA(typename pcl::PointCloud<PointType_> &_cloud,
                     Eigen::Matrix4f &_pose,
                     std::vector<float> &_limits);
+
+    /// Radius filter.
+    /// \param _inputcloud: input cloud to filter
+    /// \param _outputcloud: filtered cloud
+    /// \param _radiusSearch: Set the sphere radius that is to be used for determining the k-nearest neighbors for filtering.
+    /// \param _minNeighbors: Set the minimum number of neighbors that a point needs to have in the given search radius in order to be considered an inlier (i.e., valid)
+    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
+    bool radiusFilter(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
+                     double _radiusSearch, int _minNeighbors);
 
 }
 
