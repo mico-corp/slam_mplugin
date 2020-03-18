@@ -515,11 +515,6 @@ namespace mico {
         rorfilter.setMinNeighborsInRadius (_minNeighbors);
         rorfilter.setNegative (false);
         rorfilter.filter (*_outputCloud);
-        auto indices_rem = rorfilter.getRemovedIndices ();
-        float removed = (float)_outputCloud->points.size() / (float)_inputCloud->points.size();
-        std::cout << "[BlockDarknet]Removed " << " input cloud: " << _inputCloud->points.size()
-                  << " output cloud: " << _outputCloud->points.size()
-                  << " %  " << removed << " indices" << std::endl;
         return true;
     }   
 
