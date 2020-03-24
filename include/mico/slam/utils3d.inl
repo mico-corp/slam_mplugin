@@ -546,10 +546,25 @@ namespace mico {
         std::vector <pcl::PointIndices> clusters;
 	    clustering.extract(clusters);
 
-        
-        auto lastCluster = clusters.back();
+        // auto lastCluster = clusters.back();
 
-		for (std::vector<int>::const_iterator point = lastCluster.indices.begin(); point != lastCluster.indices.end(); point++)
+		// for (std::vector<int>::const_iterator point = lastCluster.indices.begin(); point != lastCluster.indices.end(); point++)
+		// 	_outputCloud->points.push_back(_inputCloud->points[*point]);
+
+
+        // check region with more points (desired)
+        int maxPoints = 0;
+        int i = 0;
+        int index = 0;
+        for(auto&i: clusters){
+            if(i.indices.size() > maxPoints){
+                maxPoints = i.indices.size();
+                index = i;
+            }
+            index++;
+        }
+        std::cout << "[Utils3D] Number of clusters " << clusters.size() << " --> selected cluster number " << index << std::endl;
+		for (std::vector<int>::const_iterator point = clusters[index].indices.begin(); point != clusters[index].indices.end(); point++)
 			_outputCloud->points.push_back(_inputCloud->points[*point]);
 
 		_outputCloud->width = _outputCloud->points.size();
