@@ -151,7 +151,6 @@ namespace mico {
     template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
     bool minCutSegmentation(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
                      PointType_ _center, double _radius, int _numberOfNeighbours, double _weight, double _sigma);
-    
 
 }
 

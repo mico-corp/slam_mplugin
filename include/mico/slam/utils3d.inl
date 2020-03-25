@@ -521,7 +521,8 @@ namespace mico {
     template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
     bool minCutSegmentation(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
                      PointType_ _center, double _radius, int _numberOfNeighbours, double _weight, double _sigma){
-                         
+        std::cout << "[Utils3D] STARTING MIN CUT FILTER----------------------------------------------------------" << std::endl;
+                 
         // Min-cut clustering object.
 	    pcl::MinCutSegmentation<PointType_> clustering;
 	    clustering.setInputCloud(_inputCloud);
@@ -556,14 +557,27 @@ namespace mico {
         int maxPoints = 0;
         int desiredCluster = 0;
         int index = 0;
+        // for(auto&i: clusters){
+        //     if(i.indices.size() > maxPoints){
+        //         maxPoints = i.indices.size();
+        //         desiredCluster = index;
+        //     }
+        //     index++;
+        // }
+        float minDistance = 999999;
         for(auto&i: clusters){
-            if(i.indices.size() > maxPoints){
-                maxPoints = i.indices.size();
-                desiredCluster = index;
+            // take pointcloud closer to the camera 
+            if(i.indices.size() > 0){
+                if(_inputCloud->points[i.indices[0]].z < minDistance){
+                    minDistance =_inputCloud->points[i.indices[0]].z;
+                    std::cout << "[Utils3D] Cluster " << index << " Min point distance=" << minDistance << std::endl;
+                    desiredCluster = index;
+                }
             }
             index++;
         }
-        std::cout << "[Utils3D] Number of clusters " << clusters.size() << " --> selected cluster number " << desiredCluster << std::endl;
+
+        std::cout << "[Utils3D] Number of clusters " << clusters.size() << " --> selected cluster number " << desiredCluster << " with distance " << minDistance << std::endl;
 		for (std::vector<int>::const_iterator point = clusters[desiredCluster].indices.begin(); point != clusters[desiredCluster].indices.end(); point++)
 			_outputCloud->points.push_back(_inputCloud->points[*point]);
 
