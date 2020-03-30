@@ -545,7 +545,9 @@ namespace mico {
         clustering.setSourceWeight(_weight);
 
         std::vector <pcl::PointIndices> clusters;
+        std::cout << "[Utils3D] Extracting indices" << std::endl;
 	    clustering.extract(clusters);
+        std::cout << "[Utils3D] Finished extracting indices" << std::endl;
 
         // auto lastCluster = clusters.back();
 
@@ -553,24 +555,17 @@ namespace mico {
 		// 	_outputCloud->points.push_back(_inputCloud->points[*point]);
 
 
-        // check region with more points (desired)
-        int maxPoints = 0;
+        // check region with closest points (desired)
         int desiredCluster = 0;
         int index = 0;
-        // for(auto&i: clusters){
-        //     if(i.indices.size() > maxPoints){
-        //         maxPoints = i.indices.size();
-        //         desiredCluster = index;
-        //     }
-        //     index++;
-        // }
+        std::cout << "[Utils3D] Starting Cluster distance filter" << std::endl;
         float minDistance = 999999;
         for(auto&i: clusters){
             // take pointcloud closer to the camera 
             if(i.indices.size() > 0){
+                std::cout << "[Utils3D] Cluster " << index << " Min point distance=" << _inputCloud->points[i.indices[0]].z << std::endl;
                 if(_inputCloud->points[i.indices[0]].z < minDistance){
                     minDistance =_inputCloud->points[i.indices[0]].z;
-                    std::cout << "[Utils3D] Cluster " << index << " Min point distance=" << minDistance << std::endl;
                     desiredCluster = index;
                 }
             }
