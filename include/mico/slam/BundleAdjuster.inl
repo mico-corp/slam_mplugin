@@ -84,7 +84,7 @@ namespace mico {
         unsigned nWords = 0;
         for(auto &df: mDataframes){
             for(auto  &word: df.second->words()){
-                if(!mUsedWordsMap[word.second->id] &&  word.second->dfMap.size() > this->mBaMinAparitions){
+                if(!mUsedWordsMap[word.second->id] &&  word.second->dfMap.size() > this->mBaMinAparitions && !word.second->optimized){
                     nWords++;
                     mUsedWordsMap[word.second->id] = true;  // check true to use it later
                     mGlobalUsedWordsRef[word.second->id] = word.second;
