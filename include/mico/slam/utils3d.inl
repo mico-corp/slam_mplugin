@@ -521,7 +521,6 @@ namespace mico {
     template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
     bool minCutSegmentation(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
                      PointType_ _center, double _radius, int _numberOfNeighbours, double _weight, double _sigma){
-        std::cout << "[Utils3D] STARTING MIN CUT FILTER----------------------------------------------------------" << std::endl;
                  
         // Min-cut clustering object.
 	    pcl::MinCutSegmentation<PointType_> clustering;
@@ -545,9 +544,15 @@ namespace mico {
         clustering.setSourceWeight(_weight);
 
         std::vector <pcl::PointIndices> clusters;
-        std::cout << "[Utils3D] Extracting indices" << std::endl;
-	    clustering.extract(clusters);
-        std::cout << "[Utils3D] Finished extracting indices" << std::endl;
+        // std::cout << "[Utils3d] Min cut parameters: center " << _center.x << " " << center.y << " " << center.z << " sigma " << _sigma << " radius "
+        //             << _radius << " num of neighbours " << _numberOfNeighbours << " weight " << _weight << std::endl;
+        // std::cout << "[Utils3D] Extracting indices" << std::endl;
+	    clustering.extract(clusters);   // here goes several error messages: 
+                                        // [pcl::SampleConsensusModelRegistration::computeSampleDistanceThreshold] Covariance matrix has NaN values! Is the input cloud finite?
+                                        // [pcl::SampleConsensusModel::getSamples] Can not select 0 unique points out of 0!
+                                        // [pcl::RandomSampleConsensus::computeModel] No samples could be selected!
+
+        // std::cout << "[Utils3D] Finished extracting indices" << std::endl;
 
         // auto lastCluster = clusters.back();
 
@@ -558,12 +563,12 @@ namespace mico {
         // check region with closest points (desired)
         int desiredCluster = 0;
         int index = 0;
-        std::cout << "[Utils3D] Starting Cluster distance filter" << std::endl;
+        // std::cout << "[Utils3D] Starting Cluster distance filter" << std::endl;
         float minDistance = 999999;
         for(auto&i: clusters){
             // take pointcloud closer to the camera 
             if(i.indices.size() > 0){
-                std::cout << "[Utils3D] Cluster " << index << " Min point distance=" << _inputCloud->points[i.indices[0]].z << std::endl;
+                // std::cout << "[Utils3D] Cluster " << index << " Min point distance=" << _inputCloud->points[i.indices[0]].z << std::endl;
                 if(_inputCloud->points[i.indices[0]].z < minDistance){
                     minDistance =_inputCloud->points[i.indices[0]].z;
                     desiredCluster = index;
@@ -572,7 +577,7 @@ namespace mico {
             index++;
         }
 
-        std::cout << "[Utils3D] Number of clusters " << clusters.size() << " --> selected cluster number " << desiredCluster << " with distance " << minDistance << std::endl;
+        // std::cout << "[Utils3D] Number of clusters " << clusters.size() << " --> selected cluster number " << desiredCluster << " with distance " << minDistance << std::endl;
 		for (std::vector<int>::const_iterator point = clusters[desiredCluster].indices.begin(); point != clusters[desiredCluster].indices.end(); point++)
 			_outputCloud->points.push_back(_inputCloud->points[*point]);
 
