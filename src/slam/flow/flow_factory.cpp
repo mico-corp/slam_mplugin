@@ -31,6 +31,7 @@
 #include <mico/slam/flow/savers/SaverEntity.h>
 #include <mico/slam/flow/savers/SaverImage.h>
 #include <mico/slam/flow/savers/SaverTrajectory.h>
+#include <mico/slam/flow/misc/BlockDataframeInspector.h>
 #include <mico/slam/flow/BlockQueuer.h>
 #include <mico/slam/flow/CastBlocks.h>
 
@@ -52,7 +53,7 @@ extern "C" flow::PluginNodeCreator* factory(){
     creator->registerNodeCreator([](){ return std::make_unique<FlowVisualBlock<BlockLoopClosure>>(); },                         "SLAM");
     creator->registerNodeCreator([](){ return std::make_unique<FlowVisualBlock<BlockOptimizerCF>>(); },                         "SLAM");
     
-    //Savers
+    // Savers
     creator->registerNodeCreator([](){ return std::make_unique<FlowVisualBlock<SaverImage>>(); },                               "Savers");
     creator->registerNodeCreator([](){ return std::make_unique<FlowVisualBlock<SaverTrajectory>>(); },                          "Savers");
     creator->registerNodeCreator([](){ return std::make_unique<FlowVisualBlock<SaverEntity>>(); },                              "Savers");
@@ -60,6 +61,9 @@ extern "C" flow::PluginNodeCreator* factory(){
     // Queuers
     creator->registerNodeCreator([](){ return std::make_unique<FlowVisualBlock<BlockQueuer<QueuerTraitClusterframes>>>(); },    "Queuer");
     creator->registerNodeCreator([](){ return std::make_unique<FlowVisualBlock<BlockQueuer<QueuerTraitColor>>>        (); },    "Queuer");
+
+    // Misc
+    creator->registerNodeCreator([](){ return std::make_unique<FlowVisualBlock<BlockDataframeInspector>>(); },                  "Misc");
 
     return creator;
 }
