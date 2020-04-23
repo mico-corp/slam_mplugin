@@ -35,12 +35,12 @@
 #include <pcl/registration/correspondence_rejection_surface_normal.h>
 #include <pcl/filters/statistical_outlier_removal.h>
 #include <pcl/filters/radius_outlier_removal.h>
-#include <pcl/segmentation/min_cut_segmentation.h>
 #include <pcl/filters/filter.h>
+#include <pcl/filters/passthrough.h>
+#include <pcl/segmentation/min_cut_segmentation.h>
 #include <pcl/common/pca.h>
 #include <pcl/common/centroid.h>
 #include <pcl/common/common.h>
-
 #include <chrono>
 
 namespace mico {
@@ -460,6 +460,7 @@ namespace mico {
         }
     }
 
+    //---------------------------------------------------------------------------------------------------------------------
     template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
     bool computePCA(typename pcl::PointCloud<PointType_> &_cloud,
                     Eigen::Matrix4f &_pose,
@@ -504,6 +505,7 @@ namespace mico {
         return true;
     }
 
+    //---------------------------------------------------------------------------------------------------------------------
     template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
     bool radiusFilter(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
                          double _radiusSearch, int _minNeighbors){
@@ -516,8 +518,39 @@ namespace mico {
         rorfilter.setNegative (false);
         rorfilter.filter (*_outputCloud);
         return true;
-    }   
+    }  
 
+    //---------------------------------------------------------------------------------------------------------------------
+    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
+    bool passThroughFilter(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud){
+
+        float max_z,min_z;
+        min_z = 1000.0;
+        max_z = 0.0;
+        for (std::size_t i = 0; i < _inputCloud->points.size (); ++i){
+            min_z = (_inputCloud->points[i].z < min_z) ? _inputCloud->points[i].z : min_z; 
+            max_z = (_inputCloud->points[i].z > max_z) ? _inputCloud->points[i].z : max_z; 
+        }
+
+        // Create the filtering object
+        typename pcl::PointCloud<PointType_>::Ptr cloud_filtered (new pcl::PointCloud<PointType_>);
+        pcl::PassThrough<PointType_> pass;
+        pass.setInputCloud (_inputCloud);
+
+        std::string filterAxis = "z";
+        float filterMaxLimit = max_z - (max_z - min_z)/2.0; 
+        pass.setFilterFieldName (filterAxis);
+        pass.setFilterLimits (0.0, filterMaxLimit);
+        //pass.setFilterLimitsNegative (true);
+        pass.filter (*cloud_filtered);
+
+        std::vector<int> indices;
+        pcl::removeNaNFromPointCloud(*cloud_filtered, *_outputCloud, indices);
+
+        return true;
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------
     template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
     bool minCutSegmentation(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
                      PointType_ _center, double _radius, int _numberOfNeighbours, double _weight, double _sigma){

@@ -140,7 +140,14 @@ namespace mico {
     bool radiusFilter(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud,
                      double _radiusSearch, int _minNeighbors);
 
-    /// Radius filter.
+    /// Pass Through Z filter.
+    /// \param _inputcloud: input cloud to filter
+    /// \param _outputcloud: filtered cloud
+    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
+    bool passThroughFilter(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud);
+
+
+    /// Min-cut segmentation
     /// \param _inputcloud: input cloud to filter
     /// \param _outputcloud: filtered cloud
     /// \param _center: 
