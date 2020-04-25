@@ -22,6 +22,8 @@
 
 #include <Eigen/Eigen>
 
+#include <pcl/kdtree/kdtree.h>
+
 #include <pcl/sample_consensus/ransac.h>
 #include <pcl/sample_consensus/sac_model_registration.h>
 #include <pcl/registration/icp.h>
@@ -38,6 +40,7 @@
 #include <pcl/filters/filter.h>
 #include <pcl/filters/passthrough.h>
 #include <pcl/segmentation/min_cut_segmentation.h>
+#include <pcl/segmentation/extract_clusters.h>
 #include <pcl/common/pca.h>
 #include <pcl/common/centroid.h>
 #include <pcl/common/common.h>
@@ -547,6 +550,51 @@ namespace mico {
         std::vector<int> indices;
         pcl::removeNaNFromPointCloud(*cloud_filtered, *_outputCloud, indices);
 
+        return true;
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------
+    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
+    bool euclideanClustering(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, float _clusterTol, int _minClusterSize,
+                             typename pcl::PointCloud<PointType_>::Ptr &_outputCluster){
+        
+        // Creating the KdTree object for the search method of the extraction
+        typename pcl::search::KdTree<PointType_>::Ptr tree (new pcl::search::KdTree<PointType_>);
+        tree->setInputCloud(_inputCloud);
+        
+        std::vector<pcl::PointIndices> cluster_indices;
+        pcl::EuclideanClusterExtraction<PointType_> ec;
+
+        // If you take a very small value, it can happen that an actual object can be seen as multiple clusters. 
+        // On the other hand, if you set the value too high, it could happen, that multiple objects are seen as one cluster. 
+        ec.setClusterTolerance (_clusterTol); // (0.02)2cm
+        
+        // Min cluster points size
+        ec.setMinClusterSize (_minClusterSize); //2000
+        // Max cluster points size
+        ec.setMaxClusterSize (_inputCloud->points.size());
+        ec.setSearchMethod (tree);
+        ec.setInputCloud(_inputCloud);
+
+        auto tt0 = std::chrono::system_clock::now();
+        ec.extract (cluster_indices);
+        auto tt1 = std::chrono::system_clock::now();
+        auto clusteringTime = std::chrono::duration_cast<std::chrono::milliseconds>(tt1-tt0).count();
+
+        std::cout << "Time spend clustering: " << clusteringTime << " ms\n";
+
+        // int outputClusterIndex = -1;
+        // float MinZCluster = 1000.0;
+
+        // The first element are the biggest cluster
+        std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin ();       
+        for (std::vector<int>::const_iterator pit = it->indices.begin (); pit != it->indices.end (); ++pit)
+            _outputCluster->points.push_back (_inputCloud->points[*pit]); //*
+        
+        _outputCluster->width = _outputCluster->points.size ();
+        _outputCluster->height = 1;
+        _outputCluster->is_dense = true;
+        
         return true;
     }
 

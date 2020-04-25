@@ -146,7 +146,15 @@ namespace mico {
     template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
     bool passThroughFilter(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, typename pcl::PointCloud<PointType_>::Ptr &_outputCloud);
 
-
+    /// Euclidean Clustering.
+    /// \param _inputcloud: input cloud to filter
+    /// \param _outputCluster: biggest cluster 
+    /// \param _outputCluster: biggest cluster 
+    /// \param _clusterTol: Distance tolerance to create clusters
+    /// \param _minClusterSize: Min points to avoid create a euclidean cluster   
+    template<typename PointType_, DebugLevels DebugLevel_ = DebugLevels::Null, OutInterfaces OutInterface_ = OutInterfaces::Null>
+    bool euclideanClustering(typename pcl::PointCloud<PointType_>::Ptr &_inputCloud, float _clusterTol, int _minClusterSize,
+                             typename pcl::PointCloud<PointType_>::Ptr &_outputCluster);
     /// Min-cut segmentation
     /// \param _inputcloud: input cloud to filter
     /// \param _outputcloud: filtered cloud
