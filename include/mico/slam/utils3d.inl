@@ -575,21 +575,15 @@ namespace mico {
         ec.setMaxClusterSize (_inputCloud->points.size());
         ec.setSearchMethod (tree);
         ec.setInputCloud(_inputCloud);
-
-        auto tt0 = std::chrono::system_clock::now();
         ec.extract (cluster_indices);
-        auto tt1 = std::chrono::system_clock::now();
-        auto clusteringTime = std::chrono::duration_cast<std::chrono::milliseconds>(tt1-tt0).count();
 
-        std::cout << "Time spend clustering: " << clusteringTime << " ms\n";
-
-        // int outputClusterIndex = -1;
-        // float MinZCluster = 1000.0;
+        if (!(cluster_indices.size() > 0))
+            return false;
 
         // The first element are the biggest cluster
         std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin ();       
         for (std::vector<int>::const_iterator pit = it->indices.begin (); pit != it->indices.end (); ++pit)
-            _outputCluster->points.push_back (_inputCloud->points[*pit]); //*
+            _outputCluster->points.push_back (_inputCloud->points[*pit]);
         
         _outputCluster->width = _outputCluster->points.size ();
         _outputCluster->height = 1;
