@@ -28,7 +28,7 @@ namespace mico {
         // We are going to change these values individually:
         params.use_nss = true; // use normalized similarity score instead of raw score
         params.alpha = 0.3; // nss threshold
-        params.k = 1; // a loop must be consistent with 1 previous matches
+        params.k = 3; // a loop must be consistent with 3 previous matches
         params.geom_check = DLoopDetector::GEOM_DI; // use direct index for geometrical checking
         // params.geom_check = DLoopDetector::GEOM_FLANN;
         // params.geom_check = DLoopDetector::GEOM_NONE;
@@ -106,8 +106,8 @@ namespace mico {
         }
 
         mico::LoopResult finalResult;
-        finalResult.found =  result.detection();
-        finalResult.matchId =  result.match;
+        finalResult.found   = result.detection();
+        finalResult.matchId = result.match + 1; // 666 dataframes index begin in 1 and dorian index in 0
         return finalResult;
     }
 
