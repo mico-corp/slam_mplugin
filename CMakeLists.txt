@@ -59,17 +59,26 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/" ${CMAKE_MODUL
 
 target_compile_options(${PLUGIN_NAME} PUBLIC "-Wall")
 
-find_package(flow REQUIRED)
-if(${flow_FOUND})
-  target_link_libraries(${PLUGIN_NAME}  LINK_PUBLIC flow::flow)
+if(NOT ${BUNDLE_COMPILATION})
+  find_package(flow REQUIRED)
+  if(${flow_FOUND})
+    target_link_libraries(${PLUGIN_NAME}  LINK_PUBLIC flow::flow)
+    target_compile_definitions(${PLUGIN_NAME} PUBLIC HAS_FLOW)
+  endif()
+else()
+  set(flow_FOUND TRUE)
+  target_link_libraries(${PLUGIN_NAME}  LINK_PUBLIC flow)
   target_compile_definitions(${PLUGIN_NAME} PUBLIC HAS_FLOW)
 endif()
 
 set(MICO_DEPS "core")
 foreach(DEP ${MICO_DEPS})
-  find_package(mico-${DEP} REQUIRED HINTS "/usr/local/lib/cmake/mico")
+  if(NOT ${BUNDLE_COMPILATION})
+    find_package(mico-${DEP} REQUIRED HINTS "/usr/local/lib/cmake/mico")
+  endif()
   target_link_libraries(${PLUGIN_NAME} LINK_PRIVATE mico::mico-${DEP})
 endforeach()
+
 
 find_package(OpenCV REQUIRED)
 if(${OpenCV_FOUND})
@@ -119,7 +128,7 @@ if((${DBoW2_FOUND} EQUAL "1") AND (${DLib_FOUND} EQUAL "1") AND (${DLoopDetector
 	target_include_directories(${PLUGIN_NAME} PUBLIC /usr/local/include/DUtilsCV) # ${DLib_INCLUDE_DIR})
 	target_link_libraries(${PLUGIN_NAME} LINK_PUBLIC ${DLib_LIBRARY})
 else()
-	message(Warning "DBOoW2 not found, disabling SLAM module")
+	message(FATAL_ERROR "DBoW2 not found, disabling SLAM module")
 endif()
 
 set(G2O_ROOT /usr/local)
@@ -133,7 +142,7 @@ if(${g2o_FOUND})
 	target_link_libraries(${PLUGIN_NAME} LINK_PUBLIC lapack)
 	target_link_libraries(${PLUGIN_NAME}  LINK_PUBLIC g2o::core g2o::types_sba g2o::solver_cholmod)
 else()
-	message(Warning "G2O not found, disabling SLAM module")
+	message(FATAL_ERROR "G2O not found, disabling SLAM module")
 endif()
 
 ##################################################
@@ -180,21 +189,21 @@ install(EXPORT ${PLUGIN_NAME}-targets
 
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/templates/${PLUGIN_NAME}-config.cmake.in"
-	"${CMAKE_BINARY_DIR}/${PLUGIN_NAME}-config.cmake"
+	"${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}-config.cmake"
 	@ONLY
 )
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-    "${CMAKE_BINARY_DIR}/${PLUGIN_NAME}-config-version.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}-config-version.cmake"
     VERSION ${version}
     COMPATIBILITY AnyNewerVersion
 )
 
 install(
     FILES
-        "${CMAKE_BINARY_DIR}/${PLUGIN_NAME}-config.cmake"
-        "${CMAKE_BINARY_DIR}/${PLUGIN_NAME}-config-version.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}-config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PLUGIN_NAME}-config-version.cmake"
     DESTINATION lib/cmake/${PROJECT_NAME}
     COMPONENT ${PLUGIN_NAME}
 )
@@ -216,13 +225,13 @@ if(NOT TARGET uninstall)
     add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake) 
 endif() 
 
-# FLOW INSTALL target
-if(NOT TARGET flow_install) 
-	add_custom_target(flow_install
-	    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/lib${PLUGIN_NAME}.so 
-	                                     $ENV{HOME}/.flow/plugins/lib${PLUGIN_NAME}.so
-	)
-endif()
+# FLOW INSTALL target 
+add_custom_target(flow_install_${PLUGIN_NAME} ALL
+                COMMAND ${CMAKE_COMMAND} -E copy 	${CMAKE_CURRENT_BINARY_DIR}/lib${PLUGIN_NAME}.so 
+                ${CMAKE_BINARY_DIR}/plugins/lib${PLUGIN_NAME}.so
+)
+add_dependencies(flow_install_${PLUGIN_NAME} ${PLUGIN_NAME})
+
 
 ##################################################
 ####  CPACK deb generation configuration    ######
