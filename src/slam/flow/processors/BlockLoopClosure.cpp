@@ -84,7 +84,9 @@ namespace mico{
         return loopDetector_.init(jParams);
     }
     
-    std::vector<std::string> BlockLoopClosure::parameters(){
-        return {"vocabulary"};
+    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockLoopClosure::parameters(){
+        return {
+            {"vocabulary", flow::Block::eParameterType::STRING}
+            };
     }
 }

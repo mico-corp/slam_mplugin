@@ -75,7 +75,10 @@ namespace mico{
         return database_.init(jParams);
     }
     
-    std::vector<std::string> BlockDatabaseMarkI::parameters(){
-        return {"vocabulary", "similarity_score"};
+    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockDatabaseMarkI::parameters(){
+        return {
+            {"vocabulary", flow::Block::eParameterType::STRING}, 
+            {"similarity_score", flow::Block::eParameterType::DECIMAL}
+            };
     }
 }

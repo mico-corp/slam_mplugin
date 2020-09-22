@@ -38,7 +38,7 @@ namespace mico{
         // ~SaverTrajectory(){};
         
         virtual bool configure(std::unordered_map<std::string, std::string> _params) override;
-        std::vector<std::string> parameters() override;
+        std::vector<std::pair<std::string, flow::Block::eParameterType>> parameters() override;
 
 
         std::string description() const override {return    "Block that receives an stream of poses and serialize them into a file.\n"

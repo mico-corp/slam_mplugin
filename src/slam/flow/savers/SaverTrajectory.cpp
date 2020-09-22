@@ -52,8 +52,10 @@ namespace mico{
         return false;
     }
 
-    std::vector<std::string> SaverTrajectory::parameters(){
-        return {"path_folder"};
+    std::vector<std::pair<std::string, flow::Block::eParameterType>> SaverTrajectory::parameters(){
+        return {
+            {"path_folder", flow::Block::eParameterType::STRING}
+            };
     } 
 
 }

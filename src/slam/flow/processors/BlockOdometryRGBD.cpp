@@ -75,8 +75,10 @@ namespace mico{
 
     }
     
-    std::vector<std::string> BlockOdometryRGBD::parameters(){
-        return {"calibration"};
+    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockOdometryRGBD::parameters(){
+        return {
+            {"calibration", flow::Block::eParameterType::STRING}
+            };
     }
 
 

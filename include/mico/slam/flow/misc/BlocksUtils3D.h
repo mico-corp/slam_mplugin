@@ -46,7 +46,7 @@ namespace mico{
 
         BlockVoxelFiltering();
 
-        std::vector<std::string> parameters();
+        std::vector<std::pair<std::string, flow::Block::eParameterType>> parameters();
         bool configure(std::unordered_map<std::string, std::string> _params);
 
     private:

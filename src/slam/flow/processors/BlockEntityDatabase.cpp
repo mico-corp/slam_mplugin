@@ -87,7 +87,9 @@ namespace mico{
         }
     }
     
-    std::vector<std::string> BlockEntityDatabase::parameters(){
-        return {"score"};
+    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockEntityDatabase::parameters(){
+        return {
+            {"score", flow::Block::eParameterType::DECIMAL}
+        };
     }
 }

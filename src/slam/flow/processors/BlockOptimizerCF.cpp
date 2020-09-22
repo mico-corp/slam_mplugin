@@ -77,7 +77,11 @@ namespace mico{
         return true;
     }
     
-    std::vector<std::string> BlockOptimizerCF::parameters(){
-        return {"min_error", "iterations", "min_aparitions", "min_words"};
+    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockOptimizerCF::parameters(){
+        return {    {"min_error", flow::Block::eParameterType::DECIMAL}, 
+                    {"iterations", flow::Block::eParameterType::INTEGER}, 
+                    {"min_aparitions", flow::Block::eParameterType::INTEGER}, 
+                    {"min_words", flow::Block::eParameterType::INTEGER}
+                    };
     }
 }

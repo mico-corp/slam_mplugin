@@ -65,7 +65,7 @@ namespace mico{
             return true;
         }
 
-        std::vector<std::string> parameters() override{
+        std::vector<std::pair<std::string, flow::Block::eParameterType>> parameters() override{
             return {"queue_size", "stride"};
         }
 

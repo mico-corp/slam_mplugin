@@ -62,8 +62,10 @@ namespace mico{
         return false;
     }
 
-    std::vector<std::string> SaverImage::parameters(){
-        return {"path_folder"};
+    std::vector<std::pair<std::string, flow::Block::eParameterType>> SaverImage::parameters(){
+        return {
+            {"path_folder", flow::Block::eParameterType::STRING}
+            };
     } 
 
 }

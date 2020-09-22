@@ -282,8 +282,15 @@ namespace mico{
         #endif
     }
     
-    std::vector<std::string> BlockDarknet::parameters(){
-        return {"cfg", "weights", "confidence_threshold", "dense_cloud", "radius_removal", "radius_search", "minimum_neighbors"};
+    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockDarknet::parameters(){
+        return {    { "cfg", flow::Block::eParameterType::STRING},
+                    { "weights", flow::Block::eParameterType::STRING},
+                    { "confidence_threshold", flow::Block::eParameterType::DECIMAL},
+                    { "dense_cloud", flow::Block::eParameterType::BOOLEAN},
+                    { "radius_removal", flow::Block::eParameterType::DECIMAL},
+                    { "radius_search", flow::Block::eParameterType::DECIMAL},
+                    { "minimum_neighbors", flow::Block::eParameterType::INTEGER}
+                    };
     }
 
 
