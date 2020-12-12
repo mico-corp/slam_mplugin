@@ -30,6 +30,7 @@ set(PLUGIN_NAME ${PROJECT_NAME}-slam)
 file(GLOB_RECURSE MICO_SLAM_SOURCE_FILES "src/*.cpp" "src/*.c")
 file(GLOB_RECURSE MICO_SLAM_HEADER_FILES "include/*.h" "include/*.inl")
  
+SET(MICO_MODULES ${MICO_MODULES} slam PARENT_SCOPE)
 add_library(${PLUGIN_NAME} SHARED ${MICO_SLAM_HEADER_FILES} ${MICO_SLAM_SOURCE_FILES})
 target_compile_features(${PLUGIN_NAME} PUBLIC cxx_std_17)
 target_include_directories(${PLUGIN_NAME}
