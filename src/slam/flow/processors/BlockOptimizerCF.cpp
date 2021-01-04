@@ -54,7 +54,7 @@ namespace mico{
 
     }
 
-    bool BlockOptimizerCF::configure(std::unordered_map<std::string, std::string> _params){
+    bool BlockOptimizerCF::configure(std::vector<flow::ConfigParameterDef> _params){
         for(auto &param: _params){
             if(param.second == "")
                     return false;
@@ -77,11 +77,11 @@ namespace mico{
         return true;
     }
     
-    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockOptimizerCF::parameters(){
-        return {    {"min_error", flow::Block::eParameterType::DECIMAL}, 
-                    {"iterations", flow::Block::eParameterType::INTEGER}, 
-                    {"min_aparitions", flow::Block::eParameterType::INTEGER}, 
-                    {"min_words", flow::Block::eParameterType::INTEGER}
+    std::vector<flow::ConfigParameterDef> BlockOptimizerCF::parameters(){
+        return {    {"min_error", flow::ConfigParameterDef::eParameterType::DECIMAL}, 
+                    {"iterations", flow::ConfigParameterDef::eParameterType::INTEGER}, 
+                    {"min_aparitions", flow::ConfigParameterDef::eParameterType::INTEGER}, 
+                    {"min_words", flow::ConfigParameterDef::eParameterType::INTEGER}
                     };
     }
 }

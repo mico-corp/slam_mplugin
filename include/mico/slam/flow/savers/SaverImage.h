@@ -36,8 +36,8 @@ namespace mico{
         SaverImage();
         // ~SaverImage(){};
         
-        virtual bool configure(std::unordered_map<std::string, std::string> _params) override;
-        std::vector<std::pair<std::string, flow::Block::eParameterType>> parameters() override;
+        virtual bool configure(std::vector<flow::ConfigParameterDef> _params) override;
+        std::vector<flow::ConfigParameterDef> parameters() override;
 
         std::string description() const override {return    "Block that receives an stream of image and saves them into a folder.\n"
                                                             "   - Inputs: \n";};

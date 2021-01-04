@@ -70,7 +70,7 @@ namespace mico{
     } 
 
 
-    bool BlockLoopClosure::configure(std::unordered_map<std::string, std::string> _params){
+    bool BlockLoopClosure::configure(std::vector<flow::ConfigParameterDef> _params){
         cjson::Json jParams;
         for(auto &param: _params){
             if(param.first =="vocabulary"){
@@ -84,9 +84,9 @@ namespace mico{
         return loopDetector_.init(jParams);
     }
     
-    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockLoopClosure::parameters(){
+    std::vector<flow::ConfigParameterDef> BlockLoopClosure::parameters(){
         return {
-            {"vocabulary", flow::Block::eParameterType::STRING}
+            {"vocabulary", flow::ConfigParameterDef::eParameterType::STRING}
             };
     }
 }

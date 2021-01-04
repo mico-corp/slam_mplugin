@@ -54,7 +54,7 @@ namespace mico{
     }
 
 
-    bool BlockOdometryRGBD::configure(std::unordered_map<std::string, std::string> _params){
+    bool BlockOdometryRGBD::configure(std::vector<flow::ConfigParameterDef> _params){
         for(auto &param: _params){
             if(param.first == "calibration" && param.second != ""){
 
@@ -75,9 +75,9 @@ namespace mico{
 
     }
     
-    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockOdometryRGBD::parameters(){
+    std::vector<flow::ConfigParameterDef> BlockOdometryRGBD::parameters(){
         return {
-            {"calibration", flow::Block::eParameterType::STRING}
+            {"calibration", flow::ConfigParameterDef::eParameterType::STRING}
             };
     }
 

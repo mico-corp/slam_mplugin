@@ -46,8 +46,8 @@ namespace mico{
 
         BlockVoxelFiltering();
 
-        std::vector<std::pair<std::string, flow::Block::eParameterType>> parameters();
-        bool configure(std::unordered_map<std::string, std::string> _params);
+        std::vector<flow::ConfigParameterDef> parameters();
+        bool configure(std::vector<flow::ConfigParameterDef> _params);
 
     private:
         bool idle_ = true;

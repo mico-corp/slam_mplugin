@@ -35,8 +35,8 @@ namespace mico{
         BlockDatabaseMarkI();
         ~BlockDatabaseMarkI();
     
-        bool configure(std::unordered_map<std::string, std::string> _params) override;
-        std::vector<std::pair<std::string, flow::Block::eParameterType>> parameters() override;
+        bool configure(std::vector<flow::ConfigParameterDef> _params) override;
+        std::vector<flow::ConfigParameterDef> parameters() override;
         
     private:
         

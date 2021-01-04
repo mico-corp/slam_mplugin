@@ -73,7 +73,7 @@ namespace mico{
     // BlockEntityDatabase::~BlockEntityDatabase(){
     // } 
 
-    bool BlockEntityDatabase::configure(std::unordered_map<std::string, std::string> _params){
+    bool BlockEntityDatabase::configure(std::vector<flow::ConfigParameterDef> _params){
         cjson::Json jParams;
         for(auto &param: _params){
             if(param.second == "")
@@ -87,9 +87,9 @@ namespace mico{
         }
     }
     
-    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockEntityDatabase::parameters(){
+    std::vector<flow::ConfigParameterDef> BlockEntityDatabase::parameters(){
         return {
-            {"score", flow::Block::eParameterType::DECIMAL}
+            {"score", flow::ConfigParameterDef::eParameterType::DECIMAL}
         };
     }
 }

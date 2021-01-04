@@ -58,7 +58,7 @@ namespace mico{
     }
 
 
-    bool BlockOdometryPhotogrammetry::configure(std::unordered_map<std::string, std::string> _params){
+    bool BlockOdometryPhotogrammetry::configure(std::vector<flow::ConfigParameterDef> _params){
         for(auto &param: _params){
             if(param.first == "calibration"){
                 if(param.second == "")

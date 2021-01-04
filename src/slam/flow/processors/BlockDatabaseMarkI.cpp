@@ -55,7 +55,7 @@ namespace mico{
     } 
 
 
-    bool BlockDatabaseMarkI::configure(std::unordered_map<std::string, std::string> _params){
+    bool BlockDatabaseMarkI::configure(std::vector<flow::ConfigParameterDef> _params){
         cjson::Json jParams;
         for(auto &param: _params){
             if(param.second == "")
@@ -75,10 +75,10 @@ namespace mico{
         return database_.init(jParams);
     }
     
-    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockDatabaseMarkI::parameters(){
+    std::vector<flow::ConfigParameterDef> BlockDatabaseMarkI::parameters(){
         return {
-            {"vocabulary", flow::Block::eParameterType::STRING}, 
-            {"similarity_score", flow::Block::eParameterType::DECIMAL}
+            {"vocabulary", flow::ConfigParameterDef::eParameterType::STRING}, 
+            {"similarity_score", flow::ConfigParameterDef::eParameterType::DECIMAL}
             };
     }
 }

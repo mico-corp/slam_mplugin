@@ -65,13 +65,13 @@ namespace mico{
                                 });
     }
 
-    std::vector<std::pair<std::string, flow::Block::eParameterType>> BlockVoxelFiltering::parameters() {
+    std::vector<flow::ConfigParameterDef> BlockVoxelFiltering::parameters() {
         return {
-            {"voxel_size", flow::Block::eParameterType::DECIMAL}
+            {"voxel_size", flow::ConfigParameterDef::eParameterType::DECIMAL}
             };
     }
 
-    bool BlockVoxelFiltering::configure(std::unordered_map<std::string, std::string> _params) {
+    bool BlockVoxelFiltering::configure(std::vector<flow::ConfigParameterDef> _params) {
         std::istringstream istr(_params["voxel_size"]);
         istr >> voxelSize_;
         voxeler_.setLeafSize (voxelSize_,voxelSize_,voxelSize_);

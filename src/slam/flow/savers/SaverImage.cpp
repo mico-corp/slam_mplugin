@@ -50,7 +50,7 @@ namespace mico{
         );
     }
     
-    bool SaverImage::configure(std::unordered_map<std::string, std::string> _params){
+    bool SaverImage::configure(std::vector<flow::ConfigParameterDef> _params){
         for(auto &param:_params){
             if(param.first == "path_folder"){
                 pathFolder_ = param.second;
@@ -62,9 +62,9 @@ namespace mico{
         return false;
     }
 
-    std::vector<std::pair<std::string, flow::Block::eParameterType>> SaverImage::parameters(){
+    std::vector<flow::ConfigParameterDef> SaverImage::parameters(){
         return {
-            {"path_folder", flow::Block::eParameterType::STRING}
+            {"path_folder", flow::ConfigParameterDef::eParameterType::STRING}
             };
     } 
 
