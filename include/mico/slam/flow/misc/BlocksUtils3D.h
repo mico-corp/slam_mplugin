@@ -32,6 +32,7 @@
 namespace mico{
     class BlockTransformCloud: public flow::Block {
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Transform Cloud";}
 
         BlockTransformCloud();
@@ -42,10 +43,12 @@ namespace mico{
 
     class BlockVoxelFiltering: public flow::Block {
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Voxel Filtering";}
 
         BlockVoxelFiltering();
 
+        /// Get list of parameters of the block
         std::vector<flow::ConfigParameterDef> parameters();
         bool configure(std::vector<flow::ConfigParameterDef> _params);
 

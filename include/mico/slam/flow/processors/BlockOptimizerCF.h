@@ -33,14 +33,17 @@ namespace mico{
 
     class BlockOptimizerCF: public flow::Block{
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Optimizer CFs (g2o)";}
 
         BlockOptimizerCF();
         // ~BlockOptimizerCF(){};
     
         bool configure(std::vector<flow::ConfigParameterDef> _params) override;
+        /// Get list of parameters of the block
         std::vector<flow::ConfigParameterDef> parameters() override;
 
+        /// Returns a brief description of the block
         std::string description() const override {return    "Block for optimizing 3D graph maps using g2o.\n"
                                                             "   - Inputs: \n"
                                                             "   - Outputs: \n";};

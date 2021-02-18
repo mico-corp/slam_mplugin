@@ -35,14 +35,17 @@ namespace mico{
 
     class BlockLoopClosure: public flow::Block{
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Loop closure detector";}
 
         BlockLoopClosure();
         ~BlockLoopClosure();
     
         bool configure(std::vector<flow::ConfigParameterDef> _params) override;
+        /// Get list of parameters of the block
         std::vector<flow::ConfigParameterDef> parameters() override;
         
+        /// Returns a brief description of the block
         std::string description() const override {return    "Block for detecting loops by using 2D visual features on sequences of images using DBOW2.\n"
                                                             "   - Inputs: \n"
                                                             "   - Outputs: \n";};

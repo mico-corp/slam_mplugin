@@ -37,21 +37,26 @@
 namespace mico{
 
     struct Filter2D{
+        /// Get name of block
         virtual std::string name()                          = 0;
         virtual cv::Mat operator()(cv::Mat &_input)         = 0;
-        virtual QWidget * customWidget()                    = 0;
+        virtual /// Get custom view widget to be display in the graph
+        QWidget * customWidget()                    = 0;
     };
 
     class BlocksFilters2D: public flow::Block {
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Filters 2D";}
 
         BlocksFilters2D();
 
-        virtual QWidget * customWidget(){
+        virtual /// Get custom view widget to be display in the graph
+        QWidget * customWidget(){
             return visualContainer_;
         }
 
+        /// Returns a brief description of the block
         std::string description() const override {return    "Block with various simple 2D filters for images.\n"
                                                             "   - Inputs: \n"
                                                             "   - Outputs: \n";};
@@ -76,14 +81,17 @@ namespace mico{
 
     class BlocksImageConversion: public flow::Block {
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Image Conversion";}
 
         BlocksImageConversion();
 
-        virtual QWidget * customWidget(){
+        virtual /// Get custom view widget to be display in the graph
+        QWidget * customWidget(){
             return visualContainer_;
         }
 
+        /// Returns a brief description of the block
         std::string description() const override {return    "Block image type conversion utilities.\n"
                                                             "   - Inputs: \n"
                                                             "   - Outputs: \n";};
@@ -109,22 +117,28 @@ namespace mico{
     //-------------------------------------------- IMPLEMENTATIONS ----------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------
     struct Filter2DSobel: public Filter2D{
+        /// Get name of block
         virtual std::string name()                      override {return "Sobel";}
         virtual cv::Mat operator()(cv::Mat &_input)     override ;
-        virtual QWidget * customWidget()                override {return nullptr;}
+        virtual /// Get custom view widget to be display in the graph
+        QWidget * customWidget()                override {return nullptr;}
     };
 
     struct Filter2DLaplacian: public Filter2D{
+        /// Get name of block
         virtual std::string name()                      override {return "Laplacian";}
         virtual cv::Mat operator()(cv::Mat &_input)     override;
-        virtual QWidget * customWidget()                override {return nullptr;}
+        virtual /// Get custom view widget to be display in the graph
+        QWidget * customWidget()                override {return nullptr;}
     };
 
     struct Filter2DGaussian: public Filter2D{
         Filter2DGaussian();
+        /// Get name of block
         virtual std::string name()                      override {return "Gaussian";}
         virtual cv::Mat operator()(cv::Mat &_input)     override;
-        virtual QWidget * customWidget()                override {return kernelSizeEdit_;}
+        virtual /// Get custom view widget to be display in the graph
+        QWidget * customWidget()                override {return kernelSizeEdit_;}
     private:
         QGroupBox *configWidget_;
         QLineEdit *kernelSizeEdit_;

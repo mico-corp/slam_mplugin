@@ -32,15 +32,19 @@ namespace mico{
 
     class SaverTrajectory:public flow::Block{
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Saver Trajectory";}
         
         SaverTrajectory();
         // ~SaverTrajectory(){};
         
+        /// Configure block with given parameters.
         virtual bool configure(std::vector<flow::ConfigParameterDef> _params) override;
+        /// Get list of parameters of the block
         std::vector<flow::ConfigParameterDef> parameters() override;
 
 
+        /// Returns a brief description of the block
         std::string description() const override {return    "Block that receives an stream of poses and serialize them into a file.\n"
                                                             "   - Inputs: \n";};
 

@@ -30,12 +30,14 @@ namespace mico{
 
     class BlockDatabaseMarkI: public flow::Block{
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Database Mark I";}
 
         BlockDatabaseMarkI();
         ~BlockDatabaseMarkI();
     
         bool configure(std::vector<flow::ConfigParameterDef> _params) override;
+        /// Get list of parameters of the block
         std::vector<flow::ConfigParameterDef> parameters() override;
         
     private:

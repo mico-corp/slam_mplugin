@@ -49,6 +49,7 @@ namespace mico{
     //-----------------------------------------------------------------------------------------------------------------
     class BlockDataframeToPose: public BlockDataframeToSomething{
     public:
+        /// Get name of block
         virtual std::string name() const override { return "Dataframe -> Pose"; }
         BlockDataframeToPose() { createPipe("Pose","mat44"); }
         // ~BlockDataframeToPose(){};
@@ -63,6 +64,7 @@ namespace mico{
     //-----------------------------------------------------------------------------------------------------------------
     class BlockDataframeToCloud: public BlockDataframeToSomething{
     public:
+        /// Get name of block
         virtual std::string name() const override { return "Dataframe -> Cloud"; }
         BlockDataframeToCloud(){ createPipe("Cloud","cloud"); }
         // ~BlockDataframeToCloud(){};

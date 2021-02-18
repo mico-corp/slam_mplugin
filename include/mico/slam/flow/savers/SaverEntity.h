@@ -32,15 +32,19 @@ namespace mico{
 
     class SaverEntity:public flow::Block{
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Saver Entity";}
         
         SaverEntity();
         // ~SaverEntity(){};
         
+        /// Configure block with given parameters.
         virtual bool configure(std::vector<flow::ConfigParameterDef> _params) override;
+        /// Get list of parameters of the block
         std::vector<flow::ConfigParameterDef> parameters() override;
 
 
+        /// Returns a brief description of the block
         std::string description() const override {return    "Block that receives an stream of entities (typically from object detection techniques) and serialize them into a file.\n"
                                                             "   - Inputs: \n";};
     private:

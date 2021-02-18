@@ -30,14 +30,17 @@ namespace mico{
 
     class BlockOdometryRGBD: public flow::Block{
     public:
+        /// Get name of block
         virtual std::string name() const override {return "Odometry RGBD";}
 
         BlockOdometryRGBD();
         // ~BlockOdometryRGBD(){};
 
         bool configure(std::vector<flow::ConfigParameterDef> _params) override;
+        /// Get list of parameters of the block
         std::vector<flow::ConfigParameterDef> parameters() override;
 
+        /// Returns a brief description of the block
         std::string description() const override {return    "Block for visual odometry estimation using RGBD information.\n"
                                                             "   - Inputs: \n"
                                                             "   - Outputs: \n";};

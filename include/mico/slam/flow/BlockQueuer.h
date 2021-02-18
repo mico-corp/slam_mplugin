@@ -33,6 +33,7 @@ namespace mico{
     template<typename Trait_>
     class BlockQueuer: public flow::Block{
     public:
+        /// Get name of block
         virtual std::string name() const override {return Trait_::Name_;}
 
         BlockQueuer(){
@@ -65,10 +66,12 @@ namespace mico{
             return true;
         }
 
+        /// Get list of parameters of the block
         std::vector<flow::ConfigParameterDef> parameters() override{
             return {"queue_size", "stride"};
         }
 
+        /// Returns a brief description of the block
         std::string description() const override {return    "Block that takes an input stream of data and places it into an array of given size."
                                                             "The queue is flushed by the given stride size.\n"
                                                             "   - Inputs: \n"
