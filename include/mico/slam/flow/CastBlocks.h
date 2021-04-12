@@ -41,7 +41,7 @@ namespace mico{
         // ~BlockDataframeToSomething(){};
     protected:
         bool idle_ = true;
-        virtual std::any dataToget(mico::Dataframe<pcl::PointXYZRGBNormal>::Ptr &_df) = 0;
+        virtual boost::any dataToget(mico::Dataframe<pcl::PointXYZRGBNormal>::Ptr &_df) = 0;
         virtual std::string tagToGet() = 0;
 
     };
@@ -55,7 +55,7 @@ namespace mico{
         // ~BlockDataframeToPose(){};
 
     protected:
-        virtual std::any dataToget(mico::Dataframe<pcl::PointXYZRGBNormal>::Ptr &_df) override { return _df->pose(); }
+        virtual boost::any dataToget(mico::Dataframe<pcl::PointXYZRGBNormal>::Ptr &_df) override { return _df->pose(); }
         
         virtual std::string tagToGet() override { return "Pose"; }
     };
@@ -70,7 +70,7 @@ namespace mico{
         // ~BlockDataframeToCloud(){};
 
     protected:
-        virtual std::any dataToget(mico::Dataframe<pcl::PointXYZRGBNormal>::Ptr &_df) override { return _df->cloud(); }
+        virtual boost::any dataToget(mico::Dataframe<pcl::PointXYZRGBNormal>::Ptr &_df) override { return _df->cloud(); }
         
         virtual std::string tagToGet() override { return "Cloud"; }
     };
